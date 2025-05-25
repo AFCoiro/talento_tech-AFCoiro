@@ -1,0 +1,83 @@
+.header-site {
+  background-color: #1f4489;
+  position: relative; 
+
+  .header-navbar{
+      padding: 15px 0;
+
+     .navbar-brand {
+        order: initial;
+    }
+    .hamburger-menu{
+        border: none !important;
+        &:focus,
+        &:active {
+          border: none !important;
+          box-shadow: none !important;
+          outline: none !important;
+          background-color: #1f4489;
+        }
+        &:hover{
+          background-color: #2956aa;
+          color: white;
+        }
+    }
+
+    .nav-link {
+      color: white;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 0%;
+        height: 3px;
+        background-color: transparent;
+        transition: all 0.5s;
+      }
+      &:hover::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: calc(100% - 16px);
+        height: 3px;
+        background-color: #ffc107;
+      }
+      &.active {
+        color: white;
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: calc(100% - 16px);
+          height: 3px;
+          background-color: #ffcc00;
+        }
+      }
+    }
+    .shopCart {
+      width: 150px;
+      text-align: end;
+      @media (max-width:991px) {
+        width: 50px;
+        text-align: center;
+      }
+    }
+
+  }
+
+}
+    .side-navbar{
+      background-color: #1f4489 !important;
+      .nav-link{
+        color: white;
+        &:hover,&.active{
+          color: #ffcc00;
+        }
+      }
+    }

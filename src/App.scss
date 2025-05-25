@@ -1,0 +1,28 @@
+*{
+  margin: 0 ;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+h2{
+    font-weight: 700;
+    position: relative;
+    width: calc(50% - 1em);
+    max-width: 50vw;
+    min-width: 400px;
+    color: #0e3fa9;
+    margin-top: 0;
+        margin-bottom: 48px;
+    padding: 16px 12px 6px !important;
+    font-size: 32px;
+    
+    &:after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    background-color: #fcc139;
+    left: 12px;
+    bottom: -8px;
+    width: 10%;
+}
+}
