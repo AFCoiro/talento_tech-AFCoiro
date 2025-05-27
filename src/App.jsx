@@ -13,6 +13,9 @@ import ComoComprar from './pages/ComoComprar/ComoComprar';
 import Nosotros from './pages/Nosotros/Nosotros';
 import Contacto from './pages/Contacto/Contacto';
 import Login from './pages/Login/Login';
+import Admin from './pages/Admin/Admin';
+import Perfil from './pages/Perfil/Perfil';
+import RutaProtegida from './components/RutaProtegida'
 
 const API_KEY = '5fe9fd5d';
 // const URL = `http://www.omdbapi.com/?s=avengers&apikey=${API_KEY}`;
@@ -51,7 +54,15 @@ useEffect(()=>{
           <Route path='/nosotros' element={<Nosotros/>} />
           <Route path='/contacto' element={<Contacto/>} />
           <Route path='/login' element={<Login/>} />
+          
+          <Route path='/perfil/:id' element={<RutaProtegida><Perfil/></RutaProtegida>} />
+          <Route path='/admin/:id' element={<RutaProtegida><Admin/></RutaProtegida>} />
+          {/*
+          <Route path='/producto/:{id}' element={<ProductoDetalle/>} />
+          
+          */}
 
+ 
         </Routes>
         <Container className='mt-4 bgred'>
         <h2>Nuevos Lanzamientos</h2>
@@ -61,12 +72,14 @@ useEffect(()=>{
         <Row>
           {product.map((prod) => (
             <Col key={prod.id}>
-              <Card className='mt-2'>
+              <Card className='mt-2 product-card'>
                 <Card.Img variant="top" src={prod.Poster} alt={prod.Title} />
                 <Card.Body>
                   <Card.Title>{prod.Title}</Card.Title>
                   <Card.Text>{prod.Year}</Card.Text>
                   <Button variant="primary">Alquilar</Button>
+                  <Button variant="primary">Comprar</Button>
+
                 </Card.Body>
               </Card>
             </Col>

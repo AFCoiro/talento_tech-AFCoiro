@@ -61,10 +61,9 @@
       }
     }
     .shopCart {
-      width: 150px;
+      width: 50px;
       text-align: end;
       @media (max-width:991px) {
-        width: 50px;
         text-align: center;
       }
     }
@@ -72,6 +71,12 @@
   }
 
 }
+    .logOut-btn{
+      background-color: #ffcc00;
+      color: black !important;
+      font-weight: 400 !important;
+      margin-left: 1rem !important;
+    }
     .side-navbar{
       background-color: #1f4489 !important;
       .nav-link{

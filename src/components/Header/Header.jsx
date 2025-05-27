@@ -47,9 +47,9 @@ export default function Header() {
           </Offcanvas>
 
           {/* Nav en desktop */}
-          <Navbar.Collapse className="d-none d-lg-block">
+          <Navbar.Collapse className="d-none d-lg-flex justify-content-end">
             
-                <NavbarLinks className="me-auto mx-auto"  handleClose={handleClose}/>
+                <NavbarLinks className="ms-auto"  handleClose={handleClose}/>
 
           </Navbar.Collapse>
 
