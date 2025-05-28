@@ -42,14 +42,14 @@ export default function Header() {
             <Offcanvas.Header closeButton closeVariant="white">
             </Offcanvas.Header>
             <Offcanvas.Body>
-                <NavbarLinks className="flex-column" handleClose={handleClose}/>
+                <NavbarLinks key="mobile-nav" className="flex-column" handleClose={handleClose}/>
             </Offcanvas.Body>
           </Offcanvas>
 
           {/* Nav en desktop */}
           <Navbar.Collapse className="d-none d-lg-flex justify-content-end">
             
-                <NavbarLinks className="ms-auto"  handleClose={handleClose}/>
+                <NavbarLinks key="desktop-nav" className="ms-auto"  handleClose={handleClose}/>
 
           </Navbar.Collapse>
 
