@@ -1,23 +1,20 @@
-import { createContext,useState,useEffect,Children } from "react";
+import { createContext,useState,useEffect } from "react";
 
-export const UserContext = createContext();
+export const UserContext = createContext(null);
 
-export const UserProvider = ({Children}) =>
+export const UserProvider = ({children}) =>
 {
     const [user, setUser] = useState(null);
 
     useEffect(()=>{
-        setUser({Children})
-    },[Children])
+        setUser({children})
+    },[children])
     return(
-        <UserContext.Provider value={{user}}>
-            {Children}
+        <UserContext.Provider value={{user, setUser}}>
+            {children}
         </UserContext.Provider>
     )
 }  
 
-
-//praecibir la info del usuario y mostrarla:
-//import {useContext}  from "react";
-//import {userContext} 
+//para escibir la info del usuario y mostrarla:
 //const{user}useContext(UserContext);
