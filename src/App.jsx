@@ -1,7 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
-
-//import { useState, useEffect } from 'react'
 import { BrowserRouter , Route, Routes } from 'react-router-dom';
 
 import Header from './components/Header/Header';
@@ -33,10 +31,7 @@ function App() {
           
           <Route path='/perfil/:id' element={<RutaProtegida><Perfil/></RutaProtegida>} />
           <Route path='/admin/:id' element={<RutaProtegida><Admin/></RutaProtegida>} />
-          {/*
-          <Route path='/producto/:{id}' element={<ProductoDetalle/>} />
-          
-          */}
+
         </Routes>
         <Footer/>
 
