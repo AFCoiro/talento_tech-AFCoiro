@@ -1,35 +1,43 @@
-import {Table, Button} from 'react-bootstrap';
+// src/components/AdminProductList/AdminProductList.jsx
+import { Table, Button } from 'react-bootstrap';
+import { useProductModal } from '../context/ProductModalContext';
 
+export default function AdminProductList({ productos, onDelete }) {
+  const { openEditModal } = useProductModal();
 
-export default function AdminProductList({productos, onEdit, onDelete}){
-if (productos.length === 0) {
-    return <p>No hay productos cargados.</p>
-}
-return(
-        <Table striped bordered hover>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Película</th>
-                    <th>Año</th>
-                    <th>Imagen</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {productos.map(({id, titulo,fecha,img})=>(
-                    <tr key={id}>
-                        <td>{id}</td>
-                        <td>{titulo}</td>
-                        <td>{fecha}</td>
-                        <td>{img}</td>
-                        <td>
-                            <Button variant="primary" onClick={() => onEdit({id,titulo,fecha,img})}>Edit</Button>
-                            <Button variant="danger" onClick={() => onDelete(id)}>Delete</Button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
-)
+  if (productos.length === 0) {
+    return <p>No hay productos cargados.</p>;
+  }
+
+  return (
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Título</th>
+          <th>Año</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {productos.map(({ id, name, year,image }) => (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{name}</td>
+            <td>{year}</td>
+            <td>{image}</td>
+            <td>
+              <Button variant="primary" size="sm" onClick={() => openEditModal({ id, name, year,image })} className="me-2">
+                Editar
+              </Button>
+              <Button variant="danger" size="sm" onClick={() => onDelete(id)}>
+                Eliminar
+              </Button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
 }
