@@ -1,4 +1,4 @@
-// src/pages/Admin/Admin.jsx
+import './Admin.scss';
 import { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 

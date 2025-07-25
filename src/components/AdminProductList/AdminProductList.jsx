@@ -26,7 +26,9 @@ export default function AdminProductList({ productos, onDelete }) {
             <td>{id}</td>
             <td>{name}</td>
             <td>{year}</td>
-            <td>{image}</td>
+            <td> <img className='img-form'  src={image || "/no-movie-img.jpg"} alt={image} onError={(e) => {
+      e.target.onerror = null; e.target.src = "/no-movie-img.jpg";
+    }}/></td>
             <td>
               <Button variant="primary" size="sm" onClick={() => openEditModal({ id, name, year,image })} className="me-2">
                 Editar
