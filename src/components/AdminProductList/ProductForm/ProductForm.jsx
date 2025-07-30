@@ -36,12 +36,12 @@ export default function ProductForm({ product, onChange, onSubmit, onCancel, mod
         </div>
       )}
 
-      <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
         <Form.Group controlId="titulo" className="mb-3">
           <Form.Label>Título</Form.Label>
           <Form.Control
             type="text"
-            name="titulo"
+            name="name"
             value={product?.name || ''}
             onChange={onChange}
             placeholder="titulo de la película"
@@ -52,18 +52,18 @@ export default function ProductForm({ product, onChange, onSubmit, onCancel, mod
           <Form.Label>Año</Form.Label>
           <Form.Control
             type="number"
-            name="fecha"
+            name="year"
             value={product?.year || ''}
             onChange={onChange}
             placeholder="Año de estreno"
           />
         </Form.Group>
 
-        <Form.Group controlId="imgagen" className="mb-3">
+        <Form.Group controlId="imagen" className="mb-3">
           <Form.Label>Imagen</Form.Label>
           <Form.Control
             type="text"
-            name="imagen"
+            name="image"
             value={product?.image || ''}
             onChange={onChange}
             placeholder="imagen formato jpeg,png,webP..."

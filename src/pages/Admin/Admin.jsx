@@ -13,7 +13,7 @@ function AdminContent() {
   const [loading, setLoading] = useState(true);
   const { openCreateModal } = useProductModal();
 
-  // Traer productos desde la API al montar
+  // Traer películas desde la API al montar
   useEffect(() => {
     async function fetchProductos() {
       setLoading(true);
@@ -32,8 +32,8 @@ function AdminContent() {
     fetchProductos();
   }, []);
 
-  // Crear producto - POST a API
-  const agregarProducto = async (producto) => {
+  // Crear película - POST a API
+  const agregarPelicula = async (producto) => {
     try {
       const res = await fetch(URL_MOCKAPI, {
         method: 'POST',
@@ -49,8 +49,10 @@ function AdminContent() {
     }
   };
 
-  // Actualizar producto - PUT a API
-  const actualizarProducto = async (productoActualizado) => {
+  // Actualizar película - PUT a API
+  const actualizarPelicula = async (productoActualizado) => {
+    if (!window.confirm('¿Seguro que querés actualizar esta película?')) return;
+
     try {
       const res = await fetch(`${URL_MOCKAPI}/${productoActualizado.id}`, {
         method: 'PUT',
@@ -66,20 +68,48 @@ function AdminContent() {
     }
   };
 
-  // Borrar producto - DELETE a API
-  const borrarProducto = async (id) => {
+  // Borrar película - DELETE a API
+  const deleteMovie = async (id) => {
     if (!window.confirm('¿Seguro que querés eliminar esta película?')) return;
+
     try {
       const res = await fetch(`${URL_MOCKAPI}/${id}`, {
         method: 'DELETE',
       });
-      if (!res.ok) throw new Error('No se pudo eliminar el producto');
+
+      if (!res.ok) throw new Error('No se pudo eliminar la película');
       setProductos(productos.filter(p => p.id !== id));
+
     } catch (error) {
-      alert('Error al eliminar el producto');
+      alert('Error al eliminar la película');
       console.error(error);
+
     }
   };
+
+  // Publicar/Despublicar película
+  const publishMovie = async (producto) => {
+    if (!window.confirm('¿Seguro que querés publicar esta película?')) return;
+
+    try {
+      const updatedProduct = { ...producto, publish: !producto.publish };
+      const res = await fetch(`${URL_MOCKAPI}/${producto.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProduct)
+      });
+
+      if (!res.ok) throw new Error('No se pudo publicar la película');
+      const data = await res.json();
+      setProductos(productos.map(p =>  (p.id === data.id ? data : p)));
+
+    } catch (error) {
+      alert('Error al publicar la película');
+      console.error(error);
+
+    }
+  };
+
 
   return (
     <Container className="my-4">
@@ -91,13 +121,14 @@ function AdminContent() {
       {loading ? (
         <p>Cargando películas...</p>
       ) : (
-        <AdminProductList productos={productos} onDelete={borrarProducto} />
+        <AdminProductList productos={productos} onDelete={deleteMovie} onPublish={publishMovie}/>
       )}
 
-      <ProductModal onCreate={agregarProducto} onUpdate={actualizarProducto} />
+      <ProductModal onCreate={agregarPelicula} onUpdate={actualizarPelicula} />
     </Container>
   );
 }
+
 
 export default function Admin() {
   return (

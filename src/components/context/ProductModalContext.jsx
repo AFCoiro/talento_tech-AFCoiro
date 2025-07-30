@@ -9,7 +9,7 @@ export function ProductModalProvider({ children }) {
 
   const openCreateModal = () => {
     setModalMode('create');
-    setCurrentProduct({ nombre: '', precio: '' });
+    setCurrentProduct({ name: '', year: '' , image:''});
     setShowModal(true);
   };
 
@@ -18,6 +18,9 @@ export function ProductModalProvider({ children }) {
     setCurrentProduct(product);
     setShowModal(true);
   };
+
+
+  
 
   const closeModal = () => setShowModal(false);
 
