@@ -32,83 +32,78 @@ function AdminContent() {
     fetchProductos();
   }, []);
 
+  //Fetch reutilizable para los distintos llamados
+    const handleApiRequest = async (method,endPoint,body,msjPregunta,msjError,updateProductosCallback) => {
+        if (!window.confirm(msjPregunta)) return;
+
+        try {
+          const options = {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+          };
+          if (body !== null) {
+            options.body = JSON.stringify(body);
+          }
+
+          const res = await fetch(`${URL_MOCKAPI}/${endPoint}`, options);
+
+          if (!res.ok) throw new Error(msjError);
+          const data = await res.json();
+          setProductos(prev => updateProductosCallback(prev, data));
+        } catch (error) {
+          alert(msjError);
+          console.error(error);
+        }
+    }
+
   // Crear película - POST a API
-  const agregarPelicula = async (producto) => {
-    try {
-      const res = await fetch(URL_MOCKAPI, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(producto),
-      });
-      if (!res.ok) throw new Error('No se pudo crear el producto');
-      const nuevoProducto = await res.json();
-      setProductos([...productos, nuevoProducto]);
-    } catch (error) {
-      alert('Error al crear el producto');
-      console.error(error);
-    }
-  };
+  const agregarPelicula = (pelicula)=>{
+    handleApiRequest(
+      'POST',
+      '',
+      pelicula, 
+      '¿Entonces queres subir la película?',
+      'No se pudo subir la película',
+      (prev, data) => [...prev, data],
+    );
+  }
 
-  // Actualizar película - PUT a API
-  const actualizarPelicula = async (productoActualizado) => {
-    if (!window.confirm('¿Seguro que querés actualizar esta película?')) return;
+  // Actualizar película - PUT a API  const agregarPelicula = (producto)=>{
+  const actualizarPelicula = (pelicula)=>{
+    handleApiRequest(
+      'PUT',
+      pelicula.id,
+      pelicula, 
+      '¿Seguro que querés actualizar esta película?',
+      'No se pudo actualizar la película',
+      (prev, data) =>(prev.map(p => (p.id === data.id ? data : p)))
 
-    try {
-      const res = await fetch(`${URL_MOCKAPI}/${productoActualizado.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productoActualizado),
-      });
-      if (!res.ok) throw new Error('No se pudo actualizar el producto');
-      const actualizado = await res.json();
-      setProductos(productos.map(p => (p.id === actualizado.id ? actualizado : p)));
-    } catch (error) {
-      alert('Error al actualizar el producto');
-      console.error(error);
-    }
-  };
+    );
+  }
 
   // Borrar película - DELETE a API
-  const deleteMovie = async (id) => {
-    if (!window.confirm('¿Seguro que querés eliminar esta película?')) return;
-
-    try {
-      const res = await fetch(`${URL_MOCKAPI}/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) throw new Error('No se pudo eliminar la película');
-      setProductos(productos.filter(p => p.id !== id));
-
-    } catch (error) {
-      alert('Error al eliminar la película');
-      console.error(error);
-
-    }
-  };
+    const deleteMovie = (pelicula)=>{
+    handleApiRequest(
+      'DELETE',
+      pelicula,
+      null, 
+      '¿Seguro que querés eliminar esta película?',
+      'No se pudo eliminar la película',
+      (prev) =>(prev.filter(p => p.id !== pelicula))
+    );
+  }
 
   // Publicar/Despublicar película
-  const publishMovie = async (producto) => {
-    if (!window.confirm('¿Seguro que querés publicar esta película?')) return;
-
-    try {
-      const updatedProduct = { ...producto, publish: !producto.publish };
-      const res = await fetch(`${URL_MOCKAPI}/${producto.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedProduct)
-      });
-
-      if (!res.ok) throw new Error('No se pudo publicar la película');
-      const data = await res.json();
-      setProductos(productos.map(p =>  (p.id === data.id ? data : p)));
-
-    } catch (error) {
-      alert('Error al publicar la película');
-      console.error(error);
-
-    }
-  };
+      const publishMovie = (pelicula)=>{
+    handleApiRequest(
+      'PUT',
+      pelicula.id,
+      { ...pelicula, publish: !pelicula.publish }, 
+      '¿Seguro que querés publicar esta película?',
+      'No se pudo publicar la película',
+      (prev,data) =>(prev.map(p => (p.id === data.id ? data : p)))
+    )
+  }
 
 
   return (
