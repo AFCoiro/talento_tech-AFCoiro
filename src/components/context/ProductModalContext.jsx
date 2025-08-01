@@ -9,7 +9,7 @@ export function ProductModalProvider({ children }) {
 
   const openCreateModal = () => {
     setModalMode('create');
-    setCurrentProduct({ name: '', year: '' , image:''});
+    setCurrentProduct({ Title: '', Year: '' , Poster:''});
     setShowModal(true);
   };
 

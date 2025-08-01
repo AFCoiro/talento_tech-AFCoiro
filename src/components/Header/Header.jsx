@@ -2,9 +2,8 @@ import './Header.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { useState } from 'react';
-import { Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Navbar, Offcanvas } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-
 import NavbarLinks from './NavbarLinks'
 
 
@@ -57,17 +56,7 @@ export default function Header() {
             <i className="bi bi-basket2-fill text-light fs-4"></i>
           </a>
         </Container>
-      </Navbar>
-
-      <Form className="d-flex mx-auto col-8 col-xl-4 pb-4">
-        <Form.Control
-          type="search"
-          placeholder="Busca tus películas y series favoritas..."
-          className="me-2"
-          aria-label="Search"
-        />
-        <Button variant="outline-light">Buscar</Button>
-      </Form>
+      </Navbar>      
     </header>
   );
 }

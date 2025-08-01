@@ -4,7 +4,11 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
-  h2{
+body{
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    h2{
       font-weight: 700;
       position: relative;
       width: calc(50% - 1em);
@@ -25,4 +29,5 @@
       bottom: -8px;
       width: 10%;
   }
+}
 }

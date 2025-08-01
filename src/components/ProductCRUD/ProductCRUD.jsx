@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import { Container,Table, Modal, Button , Form, Row ,Col} from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const URL_MOCKAPI = 'https://6881930066a7eb81224b3b18.mockapi.io/peliculas/movies';
@@ -24,7 +25,7 @@ export default function ProductCRUD() {
     } 
     catch (error) 
     {
-      alert("Hubo un error al obtener la información");
+      toast.error("Hubo un error al obtener la información");
       console.error(error);
     } 
     finally 
@@ -57,7 +58,7 @@ const handleChange = (e) =>
         await fetchItems();
         handleCloseModal();
         } catch (error) {
-        alert("Error: No se pudo crear el item");
+        toast.error("Error: No se pudo crear el item");
         console.error(error);
         }
     };
@@ -77,7 +78,7 @@ const handleChange = (e) =>
             handleCloseModal();
 
         } catch (error) {
-            alert("Error: No se pudo actualizar el item");
+            toast.error("Error: No se pudo actualizar el item");
             console.error(error);
         }
 
@@ -94,7 +95,7 @@ const handleChange = (e) =>
                 await fetchItems();
 
             } catch (error) {
-                alert("Error: No se pudo eliminar item");
+                toast.error("Error: No se pudo eliminar item");
                 console.error(error);
             }
         }

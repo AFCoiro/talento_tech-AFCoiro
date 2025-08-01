@@ -1,10 +1,13 @@
 import './Admin.scss';
+import { Helmet } from 'react-helmet';
+
 import { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
-
+import { ToastContainer, toast,Flip } from 'react-toastify';
 import { ProductModalProvider, useProductModal } from '../../components/context/ProductModalContext';
 import AdminProductList from '../../components/AdminProductList/AdminProductList';
 import ProductModal from '../../components/AdminProductList/ProductModal/ProductModal';
+
 
 const URL_MOCKAPI = 'https://6881930066a7eb81224b3b18.mockapi.io/peliculas/movies';
 
@@ -23,7 +26,8 @@ function AdminContent() {
         const data = await res.json();
         setProductos(data);
       } catch (error) {
-        alert('No se pudieron cargar los productos');
+        toast.error('No se pudieron cargar los productos');
+
         console.error(error);
       } finally {
         setLoading(false);
@@ -33,7 +37,7 @@ function AdminContent() {
   }, []);
 
   //Fetch reutilizable para los distintos llamados
-    const handleApiRequest = async (method,endPoint,body,msjPregunta,msjError,updateProductosCallback) => {
+    const handleApiRequest = async (method,endPoint,body,msjPregunta,msjError,msjOk,updateProductosCallback) => {
         if (!window.confirm(msjPregunta)) return;
 
         try {
@@ -50,8 +54,9 @@ function AdminContent() {
           if (!res.ok) throw new Error(msjError);
           const data = await res.json();
           setProductos(prev => updateProductosCallback(prev, data));
+          toast.success(msjOk)
         } catch (error) {
-          alert(msjError);
+          toast.error(msjError);
           console.error(error);
         }
     }
@@ -64,6 +69,7 @@ function AdminContent() {
       pelicula, 
       '¿Entonces queres subir la película?',
       'No se pudo subir la película',
+      'Película agregada con éxito',
       (prev, data) => [...prev, data],
     );
   }
@@ -72,11 +78,12 @@ function AdminContent() {
   const actualizarPelicula = (pelicula)=>{
     handleApiRequest(
       'PUT',
-      pelicula.id,
+      pelicula.imdbID,
       pelicula, 
       '¿Seguro que querés actualizar esta película?',
       'No se pudo actualizar la película',
-      (prev, data) =>(prev.map(p => (p.id === data.id ? data : p)))
+      'Película actualizada con éxito',
+      (prev, data) =>(prev.map(p => (p.imdbID === data.imdbID ? data : p)))
 
     );
   }
@@ -89,7 +96,8 @@ function AdminContent() {
       null, 
       '¿Seguro que querés eliminar esta película?',
       'No se pudo eliminar la película',
-      (prev) =>(prev.filter(p => p.id !== pelicula))
+      'Película eliminada con éxito',
+      (prev) =>(prev.filter(p => p.imdbID !== pelicula))
     );
   }
 
@@ -97,16 +105,23 @@ function AdminContent() {
       const publishMovie = (pelicula)=>{
     handleApiRequest(
       'PUT',
-      pelicula.id,
-      { ...pelicula, publish: !pelicula.publish }, 
+      pelicula.imdbID,
+      { ...pelicula, Publish: !pelicula.Publish }, 
       '¿Seguro que querés publicar esta película?',
       'No se pudo publicar la película',
-      (prev,data) =>(prev.map(p => (p.id === data.id ? data : p)))
+      'Película publicada con éxito',
+      (prev,data) =>(prev.map(p => (p.imdbID === data.imdbID ? data : p)))
     )
   }
 
 
   return (
+    <>
+    <Helmet>
+      <title>REWIND BUSTER | Panel de Administración</title>
+      <meta name="robots" content="noindex" />
+    </Helmet>
+
     <Container className="my-4">
       <h1>Panel de Administración</h1>
       <Button variant="success" className="mb-3" onClick={openCreateModal}>
@@ -120,7 +135,22 @@ function AdminContent() {
       )}
 
       <ProductModal onCreate={agregarPelicula} onUpdate={actualizarPelicula} />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Flip}
+        />
     </Container>
+    </>
   );
 }
 

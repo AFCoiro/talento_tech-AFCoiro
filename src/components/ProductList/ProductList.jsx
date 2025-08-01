@@ -1,11 +1,13 @@
 import ProductCard from "./ProductCard/ProductCard";
 import { useState, useEffect } from 'react'
 import { Container, Row , Col, Spinner} from 'react-bootstrap';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 import './ProductList.scss';
 
 
 export default function ProductList({category,title}){
+    const API_KEY = '5fe9fd5d';
 
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,22 +15,32 @@ export default function ProductList({category,title}){
 
     useEffect(()=>{
 
-        const API_KEY = '5fe9fd5d';
-        let url = `http://www.omdbapi.com/?s=${category}&apikey=${API_KEY}`;
+  if (Array.isArray(category)) {
+    // Vino un array de perfil
+    setProduct(category);
+    setLoading(false);
+  } else {
+    // category es string
+    const url = `https://www.omdbapi.com/?s=${category}&apikey=${API_KEY}`;
 
-        fetch(url)
-        .then(res => res.json())
-        .then(data =>{
-        setProduct(data.Search)
-        })
-        .catch((err)=>{
-        setError("No pudimos cargar los productos. Intentá de nuevo más tarde.")
-        console.error(`***Error***: ${err}`)
-        })
-        .finally(()=>{
-        setLoading(false)
-        })
-    },[category])
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if(data.Search) {
+          setProduct(data.Search);
+          setError(null);
+        } else {
+          setProduct([]);
+          setError("No se encontraron resultados.");
+        }
+      })
+      .catch(err => {
+        setError("No pudimos cargar los productos.");
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  }
+}, [category]);
 
     return(
 
@@ -46,7 +58,20 @@ export default function ProductList({category,title}){
             <Row>
             {product.map((prod) => (
                 <Col key={prod.imdbID}>
-                    <ProductCard prod={prod} agregarAlCarrito={(prod) => alert(`Agregamos a la cesta ${prod.Title}` )} />
+                    <ProductCard prod={prod} agregarAlCarrito={(prod) => toast.success(`Agregamos a la cesta ${prod.Title}` )} />
+                      <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                        transition={Flip}
+                        />
                 </Col>
             ))}
             </Row>

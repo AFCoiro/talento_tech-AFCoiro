@@ -24,27 +24,27 @@ export default function AdminProductList({ productos, onDelete,onPublish }) {
       </thead>
       <tbody>
         {productos.map((producto) => (
-          <tr key={producto.id}>
-            <td>{producto.id}</td>
-            <td>{producto.name}</td>
-            <td>{producto.year.split("-")[0]}</td>
-            <td>{!producto.stock ? 'Si': 'No'}</td>
-            <td> <img className='img-form'  src={producto.image || "/no-movie-img.jpg"} alt={producto.image} onError={(e) => {
+          <tr key={producto.imdbID}>
+            <td>{producto.imdbID}</td>
+            <td>{producto.Title}</td>
+            <td>{producto.Year.split("-")[0]}</td>
+            <td>{!producto.Stock ? 'Si': 'No'}</td>
+            <td> <img className='img-form'  src={producto.Poster || "/no-movie-img.jpg"} alt={producto.Poster} onError={(e) => {
       e.target.onerror = null; e.target.src = "/no-movie-img.jpg";
     }}/></td>
             <td>
               <Button variant="primary" size="sm" onClick={() => openEditModal(producto)} className="me-2">
                 Editar
               </Button>
-              <Button variant="danger" size="sm" onClick={() => onDelete(producto.id)}>
+              <Button variant="danger" size="sm" onClick={() => onDelete(producto.imdbID)}>
                 Eliminar
               </Button>
               <Button
-                variant={producto.publish ? 'secondary' : 'success'}
+                variant={producto.Publish ? 'secondary' : 'success'}
                 size="sm"
                 onClick={() => onPublish(producto)}
               >
-                {producto.publish ? 'Despublicar' : 'Publicar'}
+                {producto.Publish ? 'Despublicar' : 'Publicar'}
               </Button>
             </td>
           </tr>
